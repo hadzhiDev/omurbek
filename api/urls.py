@@ -9,6 +9,9 @@ router = DefaultRouter()
 
 router.register('photos', views.PhotoViewSet)
 router.register('resources', views.ResourceViewSet)
+router.register('startendtime', views.StartEndTimeViewSet)
+router.register('groups', views.GroupViewSet)
+router.register('lessons', views.LessonViewSet)
 
 urlpatterns = [
     path('', include(router.urls))
