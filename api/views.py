@@ -1,9 +1,11 @@
 from rest_framework.viewsets import ModelViewSet
 
-from core.models import Photo, Resource, StartEndTime, Group, Lesson
+from core.models import Photo, Resource, StartEndTime, Group, DailyLesson, ScientificWork, Lesson, Topic
 from api.serializers import (PhotoSerializers, ResourceSerializers, StartEndTimeSerializers, GroupSerializers,
-                             LessonSerializers)
+                             DailyLessonSerializers, ScientificWorkSerializers, TopicForCreateLessonSerializer,
+                             LessonSerializer, CreateLessonSerializer, TopicSerializer)
 from api.paginations import SimpleResultPagination
+from api.mixins import SerializeByActionMixin
 
 
 class PhotoViewSet(ModelViewSet):
@@ -34,8 +36,35 @@ class GroupViewSet(ModelViewSet):
     lookup_field = 'id'
 
 
-class LessonViewSet(ModelViewSet):
+class DailyLessonViewSet(ModelViewSet):
+    queryset = DailyLesson.objects.all()
+    serializer_class = DailyLessonSerializers
+    pagination_class = SimpleResultPagination
+    lookup_field = 'id'
+
+
+class ScientificWorkViewSet(ModelViewSet):
+    queryset = ScientificWork.objects.all()
+    serializer_class = ScientificWorkSerializers
+    pagination_class = SimpleResultPagination
+    lookup_field = 'id'
+
+
+class TopicViewSet(ModelViewSet):
+    queryset = Topic.objects.all()
+    serializer_class = TopicSerializer
+    pagination_class = SimpleResultPagination
+    lookup_field = 'id'
+
+
+class LessonViewSet(SerializeByActionMixin, ModelViewSet):
     queryset = Lesson.objects.all()
-    serializer_class = LessonSerializers
+    serializer_classes = {
+        'list': LessonSerializer,
+        'update': CreateLessonSerializer,
+        'create': CreateLessonSerializer,
+        'retrieve': LessonSerializer,
+    }
+    # serializer_class = CreateLessonSerializer
     pagination_class = SimpleResultPagination
     lookup_field = 'id'

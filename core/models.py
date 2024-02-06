@@ -59,7 +59,7 @@ class Group(TimeStampAbstractModel):
         return self.name
 
 
-class Lesson(TimeStampAbstractModel):
+class DailyLesson(TimeStampAbstractModel):
 
     MONDAY = 'monday'
     TUESDAY = 'tuesday'
@@ -80,8 +80,8 @@ class Lesson(TimeStampAbstractModel):
     )
 
     class Meta:
-        verbose_name = 'урок'
-        verbose_name_plural = 'уроки'
+        verbose_name = 'урок по расписанию'
+        verbose_name_plural = 'уроки по расписанию'
         ordering = ('-created_at',)
 
     science = models.CharField(max_length=200, verbose_name='наук')
@@ -93,3 +93,38 @@ class Lesson(TimeStampAbstractModel):
     def __str__(self):
         return f'{self.science} - {self.group}'
 
+
+class ScientificWork(TimeStampAbstractModel):
+
+    class Meta:
+        verbose_name = 'научная работа'
+        verbose_name_plural = 'научные работы'
+        ordering = ('-created_at',)
+
+    title = models.CharField(verbose_name='название', max_length=300)
+    image = ResizedImageField('изображение', upload_to='resources/', force_format='WEBP', quality=90)
+    description = models.CharField(max_length=400, verbose_name='описание')
+    pdf = models.FileField(upload_to='scientific_work_pdf/', verbose_name='пдф файл')
+
+    def __str__(self):
+        return f'{self.title} - {self.created_at}'
+
+
+class Lesson(TimeStampAbstractModel):
+    class Meta:
+        verbose_name = 'урок'
+        verbose_name_plural = 'уроки'
+        ordering = ('-created_at',)
+
+    name = models.CharField(verbose_name='название урока', max_length=300)
+
+
+class Topic(models.Model):
+
+    class Meta:
+        verbose_name = 'тема'
+        verbose_name_plural = 'темы'
+
+    lesson = models.ForeignKey('core.Lesson', on_delete=models.CASCADE, verbose_name='урок', related_name='topics')
+    name = models.CharField(verbose_name='название', max_length=300)
+    pdf = models.FileField(upload_to='topics_pdf', verbose_name='пдф файл')

@@ -11,7 +11,10 @@ router.register('photos', views.PhotoViewSet)
 router.register('resources', views.ResourceViewSet)
 router.register('startendtime', views.StartEndTimeViewSet)
 router.register('groups', views.GroupViewSet)
+router.register('daily_lessons', views.DailyLessonViewSet)
+router.register('scientific_works', views.ScientificWorkViewSet)
 router.register('lessons', views.LessonViewSet)
+
 
 urlpatterns = [
     path('', include(router.urls))
