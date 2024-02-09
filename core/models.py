@@ -88,7 +88,7 @@ class DailyLesson(TimeStampAbstractModel):
     day_of_week = models.CharField(choices=WEEK_DAYS, verbose_name='день недели', max_length=150)
     group = models.ForeignKey('core.Group', models.CASCADE, verbose_name='группа', related_name='lesson')
     start_end_time = models.ForeignKey('core.StartEndTime', models.CASCADE, verbose_name='время начала и окончания урока',
-                                       related_name='lesson')
+                                       related_name='lessons')
 
     def __str__(self):
         return f'{self.science} - {self.group}'
