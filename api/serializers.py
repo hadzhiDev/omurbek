@@ -19,7 +19,7 @@ class ResourceSerializers(serializers.ModelSerializer):
 class DailyLessonSerializers(serializers.ModelSerializer):
     class Meta:
         model = DailyLesson
-        fields = '__all__'
+        fields = ['science', 'day_of_week', 'group']
 
 
 class StartEndTimeSerializers(WritableNestedModelSerializer):

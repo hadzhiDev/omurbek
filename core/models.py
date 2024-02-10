@@ -39,8 +39,8 @@ class StartEndTime(models.Model):
         verbose_name = 'время начала и окончания урока'
         verbose_name_plural = 'время начала и окончания урока'
 
-    start = models.CharField(max_length=100, verbose_name='время начала')
-    end = models.CharField(max_length=100, verbose_name='время конца')
+    start = models.CharField(max_length=100, verbose_name='время начала', unique=True)
+    end = models.CharField(max_length=100, verbose_name='время конца', unique=True)
 
     def __str__(self):
         return f'{self.start} - {self.end}'
