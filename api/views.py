@@ -3,7 +3,8 @@ from rest_framework.viewsets import ModelViewSet
 from core.models import Photo, Resource, StartEndTime, Group, DailyLesson, ScientificWork, Lesson, Topic
 from api.serializers import (PhotoSerializers, ResourceSerializers, StartEndTimeSerializers, GroupSerializers,
                              DailyLessonSerializers, ScientificWorkSerializers, TopicForCreateLessonSerializer,
-                             LessonSerializer, CreateLessonSerializer, TopicSerializer)
+                             LessonSerializer, CreateLessonSerializer, TopicSerializer, DailyLessonReadSerializers,
+                             CreateStartEndTimeSerializers)
 from api.paginations import SimpleResultPagination
 from api.mixins import SerializeByActionMixin
 
@@ -22,9 +23,14 @@ class ResourceViewSet(ModelViewSet):
     lookup_field = 'id'
 
 
-class StartEndTimeViewSet(ModelViewSet):
+class StartEndTimeViewSet(SerializeByActionMixin, ModelViewSet):
     queryset = StartEndTime.objects.all()
-    serializer_class = StartEndTimeSerializers
+    serializer_classes = {
+        'list': StartEndTimeSerializers,
+        'update': CreateStartEndTimeSerializers,
+        'create': CreateStartEndTimeSerializers,
+        'retrieve': StartEndTimeSerializers,
+    }
     pagination_class = SimpleResultPagination
     lookup_field = 'id'
 

@@ -16,6 +16,12 @@ class ResourceSerializers(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class DailyLessonReadSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = DailyLesson
+        fields = '__all__'
+
+
 class DailyLessonSerializers(serializers.ModelSerializer):
     class Meta:
         model = DailyLesson
@@ -23,6 +29,14 @@ class DailyLessonSerializers(serializers.ModelSerializer):
 
 
 class StartEndTimeSerializers(WritableNestedModelSerializer):
+    lessons = DailyLessonReadSerializers(many=True)
+
+    class Meta:
+        model = StartEndTime
+        fields = '__all__'
+
+
+class CreateStartEndTimeSerializers(WritableNestedModelSerializer):
     lessons = DailyLessonSerializers(many=True)
 
     class Meta:
