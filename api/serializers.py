@@ -19,7 +19,7 @@ class ResourceSerializers(serializers.ModelSerializer):
 class DailyLessonReadSerializers(serializers.ModelSerializer):
     class Meta:
         model = DailyLesson
-        fields = '__all__'
+        exclude = ('start_end_time',)
 
 
 class DailyLessonSerializers(serializers.ModelSerializer):
@@ -42,6 +42,16 @@ class CreateStartEndTimeSerializers(WritableNestedModelSerializer):
     class Meta:
         model = StartEndTime
         fields = '__all__'
+
+    def validate(self, attrs):
+        for i in range(len(attrs['lessons'])):
+            for j in range(len(attrs['lessons'])):
+                if i != j and attrs['lessons'][i]['day_of_week'] == attrs['lessons'][j]['day_of_week']:
+                    raise Exception(
+                        'вы не можете добавить один урок в один и тот же день и в одно и то же время'
+                    )
+
+        return attrs
 
 
 class GroupSerializers(serializers.ModelSerializer):

@@ -87,8 +87,16 @@ class DailyLesson(TimeStampAbstractModel):
     science = models.CharField(max_length=200, verbose_name='наук')
     day_of_week = models.CharField(choices=WEEK_DAYS, verbose_name='день недели', max_length=150)
     group = models.ForeignKey('core.Group', models.CASCADE, verbose_name='группа', related_name='lesson')
-    start_end_time = models.ForeignKey('core.StartEndTime', models.CASCADE, verbose_name='время начала и окончания урока',
+    start_end_time = models.ForeignKey('core.StartEndTime', on_delete=models.CASCADE, verbose_name='время начала и окончания урока',
                                        related_name='lessons')
+
+    # def clean(self):
+    #     lessons = DailyLesson.objects.all()
+    #     for item in lessons:
+    #         if item.day_of_week == self.day_of_week and self.start_end_time == item.start_end_time:
+    #             raise Exception(
+    #                 'вы не можете добавить один урок в один и тот же день и в одно и то же время'
+    #             )
 
     def __str__(self):
         return f'{self.science} - {self.group}'
