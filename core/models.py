@@ -28,6 +28,7 @@ class Resource(TimeStampAbstractModel):
     image = ResizedImageField('изображение', upload_to='resources/', force_format='WEBP', quality=90)
     description = models.CharField(max_length=400, verbose_name='описание')
     pdf = models.FileField(upload_to='books_pdf/', verbose_name='пдф файл')
+    date = models.DateField(verbose_name='дата')
 
     def __str__(self):
         return f'{self.name}'
@@ -113,6 +114,7 @@ class ScientificWork(TimeStampAbstractModel):
     image = ResizedImageField('изображение', upload_to='resources/', force_format='WEBP', quality=90)
     description = models.CharField(max_length=400, verbose_name='описание')
     pdf = models.FileField(upload_to='scientific_work_pdf/', verbose_name='пдф файл')
+    date = models.DateField(verbose_name='дата')
 
     def __str__(self):
         return f'{self.title} - {self.created_at}'
